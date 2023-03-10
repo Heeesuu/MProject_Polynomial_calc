@@ -43,8 +43,14 @@ public class CalcTests {
     }
 
     @Test
-    @DisplayName("10 - 20 + 30 == 60")
+    @DisplayName("10 - 20 + 30 == 20")
     void t8() {
         assertThat(Calc.run("10 - 20 + 30")).isEqualTo(20);
+    }
+
+    @Test
+    @DisplayName("10 - 10 - 10 - 10 == -20")
+    void t9() {
+        assertThat(Calc.run("10 - 10 - 10 - 10")).isEqualTo(-20);
     }
 }
