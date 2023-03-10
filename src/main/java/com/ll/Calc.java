@@ -2,14 +2,29 @@ package com.ll;
 
 public class Calc {
     public static int run(String exp) {
-        String[] bits = exp.split(" \\+ ");
+        boolean needToPlus = exp.contains("+"); //테스트 문장에 포함되어있는지 파악 포함되어있다면 true
+        boolean needToMinus = exp.contains("-");
 
-        int a = Integer.parseInt(bits[0]);
-        int b = Integer.parseInt(bits[1]);
+        if (needToPlus) {
+            String[] bits = exp.split(" \\+ ");
 
-        return a + b;
+            int a = Integer.parseInt(bits[0]);
+            int b = Integer.parseInt(bits[1]);
+
+            return a + b;
 
 
+        }
+        if (needToMinus) {
+            String[] bits = exp.split(" \\- ");
+
+            int a = Integer.parseInt(bits[0]);
+            int b = Integer.parseInt(bits[1]);
+
+            return a - b;
+        }
+
+        return 0;
 
     }
 }
