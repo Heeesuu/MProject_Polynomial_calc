@@ -10,6 +10,14 @@ public class Calc {
 
             int a = Integer.parseInt(bits[0]);
             int b = Integer.parseInt(bits[1]);
+            int c = 0;
+
+            if (bits.length > 2 ) { // 쪼갯을때 길이가 2보다 크다
+                c = Integer.parseInt(bits[2]);
+
+                return a + b + c;
+            }
+
 
             return a + b;
 
