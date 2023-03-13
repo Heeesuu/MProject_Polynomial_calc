@@ -3,10 +3,17 @@ package com.ll;
 public class Calc {
     public static int run(String exp) {
         boolean needToMulti = exp.contains("*"); // exp에 *가 포함되어있으면 true
-        boolean needToPlus = !needToMulti;
+        boolean needToPlus = exp.contains("+");
 
+        boolean needToCompound = needToMulti && needToPlus;
 
-        if ( needToPlus ){
+        if ( needToCompound ) {
+            String[] bits = exp.split(" \\+ ");
+
+            return Integer.parseInt(bits[0]) + run(bits[1]);
+        }
+
+        else if ( needToPlus ){
             exp = exp.replaceAll("- " , "+ -");
 
             String[] bits = exp.split(" \\+ ");
