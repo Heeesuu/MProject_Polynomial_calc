@@ -3,6 +3,8 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 public class Calc {
     public static int run(String exp) {
+        exp = exp.trim();
+        exp = stripOuterBrackets(exp);
         // 단일항이 입력되면 바로 리턴
         if ( !exp.contains(" ") ) return Integer.parseInt(exp);
 
@@ -10,8 +12,39 @@ public class Calc {
         boolean needToPlus = exp.contains(" + ") || exp.contains(" - ");
 
         boolean needToCompound = needToMulti && needToPlus;
+        boolean needToSplit = exp.contains("(") || exp.contains(")");
 
-        if ( needToCompound ) {
+        if (needToSplit) {
+            int bracketsCount = 0;
+            int splitPointIndex = -1;
+
+            for (int i = 0; i < exp.length(); i++) {
+                if (exp.charAt(i) == '(') {
+                    bracketsCount++;
+                }
+                else if (exp.charAt(i) == ')'){
+                    bracketsCount--;
+                }
+
+                if (bracketsCount == 0) {
+                    splitPointIndex = i;
+                    break;
+                }
+            }
+            String firstExp = exp.substring(0, splitPointIndex + 1);
+            String middle = exp.substring(splitPointIndex, splitPointIndex + 3);
+            String secondExp = exp.substring(splitPointIndex + 4);
+
+
+            if (middle.contains("*")) {
+                return Calc.run(firstExp) * Calc.run(secondExp);
+            } else {
+                return Calc.run(firstExp) + Calc.run(secondExp);
+            }
+
+        }
+
+        else if ( needToCompound ) {
             exp = exp.replaceAll("- ", "+ -");
             String[] bits = exp.split(" \\+ ");
             String newExp = Arrays.stream(bits)
@@ -39,4 +72,13 @@ public class Calc {
         }
         throw new RuntimeException("올바른 계산식이 아닙니다.");
     }
+
+    private static String stripOuterBrackets(String exp) {
+        if ( exp.charAt(0) == '(' && exp.charAt(exp.length() - 1) == ')' ) {
+            exp = exp.substring(1, exp.length() - 1);
+        }
+
+        return exp;
+    }
+
 }
